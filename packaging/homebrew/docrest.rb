@@ -22,9 +22,10 @@ class Docrest < Formula
   sha256 "REPLACE_WITH_TARBALL_SHA256"
   license "MIT"
 
+  # Dependencies must be alphabetically ordered for `brew style`.
+  depends_on "pandoc" # required for md <-> docx, docx -> pdf
+  depends_on "pango"  # WeasyPrint runtime dependency for PDF output
   depends_on "python@3.13"
-  depends_on "pandoc"            # required for md <-> docx, docx -> pdf
-  depends_on "pango"             # WeasyPrint runtime dependency for PDF output
 
   # mmdc (Mermaid CLI) and plantuml are optional and installed at runtime via
   # `docrest install`, since neither has a stable Homebrew-only path that
@@ -47,6 +48,6 @@ class Docrest < Formula
     assert_match "Supported", shell_output("#{bin}/docrest formats")
     (testpath/"hello.md").write("# hello\n\nworld\n")
     system bin/"docrest", "convert", testpath/"hello.md", testpath/"hello.txt"
-    assert_predicate testpath/"hello.txt", :exist?
+    assert_path_exists testpath/"hello.txt"
   end
 end
