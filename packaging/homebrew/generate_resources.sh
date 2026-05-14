@@ -17,28 +17,6 @@ set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "${HERE}/../.." && pwd)"
 
-# Reads the runtime dependency list from pyproject.toml without pulling in
-# tomllib at the shell level by leaning on Python.
-python3 - "${ROOT}/pyproject.toml" <<'PY'
-import sys
-import tomllib
-from pathlib import Path
-
-pyproject = Path(sys.argv[1])
-data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
-deps = data["project"]["dependencies"]
-# Strip version specifiers; homebrew-pypi-poet wants bare distribution names.
-names = []
-for dep in deps:
-    name = dep.split(";", 1)[0]
-    for sep in ("==", ">=", "<=", "~=", ">", "<", "!="):
-        if sep in name:
-            name = name.split(sep, 1)[0]
-            break
-    names.append(name.strip())
-print(" ".join(names))
-PY
-
 # Use homebrew-pypi-poet to generate resource stanzas. Install it on demand.
 if ! command -v poet >/dev/null 2>&1; then
     echo "# poet not found — install with: pipx install homebrew-pypi-poet" >&2
@@ -65,4 +43,4 @@ PY
 # Poet wants each dist name; emits resource blocks transitively. It already
 # de-dupes within a single invocation.
 # shellcheck disable=SC2086
-poet ${names_line}
+poet --single ${names_line}
