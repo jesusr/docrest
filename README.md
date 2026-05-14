@@ -6,6 +6,21 @@ Pure-Python core, with optional external tools (`pandoc`, `weasyprint` runtime l
 
 ## Install
 
+### Via Homebrew (recommended, once the tap is published)
+
+```bash
+brew tap <github-user>/docrest
+brew install docrest
+```
+
+Setting up the tap is a one-time operation for the maintainer. See
+[`packaging/homebrew/README.md`](packaging/homebrew/README.md) for the full
+release flow (cut a GitHub release, generate Python resources, push the formula
+to a `homebrew-docrest` tap repo). The scaffolding lives in
+[`packaging/homebrew/`](packaging/homebrew/).
+
+### From source
+
 ```bash
 git clone <repo> docrest && cd docrest
 python3.13 -m venv .venv

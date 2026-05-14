@@ -9,7 +9,7 @@ description = "CLI and skills for converting documentation between formats (docx
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "docrest" }]
+authors = [{ name = "Jesús R Peinado", email = "jesusrpeinado@gmail.com" }]
 dependencies = [
     "typer>=0.12.0",
     "rich>=13.7.0",
